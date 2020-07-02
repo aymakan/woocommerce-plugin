@@ -55,11 +55,6 @@ class Aymakan_Shipping_Method extends WC_Shipping_Method
     /**
      * @var string
      */
-    public $cod_fee = 0;
-
-    /**
-     * @var string
-     */
     public $debug = 'yes';
 
     /**
@@ -104,17 +99,11 @@ class Aymakan_Shipping_Method extends WC_Shipping_Method
         $this->address   = $this->get_option('collection_address');
         $this->region    = $this->get_option('collection_region');
         $this->phone     = $this->get_option('collection_phone');
-        $this->cod_fee   = $this->get_option('cod_fee');
         // $this->country     = $this->get_option('collection_country');
         $this->debug = $this->get_option('debug');
 
         // Actions
         add_action('woocommerce_update_options_shipping_' . $this->id, array($this, 'process_admin_options'));
-
-        // Add action If COD fee added
-        if (!empty($this->cod_fee)) {
-            add_action('woocommerce_cart_calculate_fees', array($this, 'aymakan_add_cod_fee'), 10, 4);
-        }
     }
 
     /**
@@ -185,13 +174,6 @@ class Aymakan_Shipping_Method extends WC_Shipping_Method
                 'desc_tip' => true,
                 'default' => ''
             ),
-            'cod_fee' => array(
-                'title' => __('Add COD Fee', 'woo-aymakan-shipping'),
-                'type' => 'text',
-                'description' => __('Add cash on deliver fee.', 'woo-aymakan-shipping'),
-                'desc_tip' => true,
-                'default' => '0'
-            ),
             'testing' => array(
                 'title' => __('Testing', 'woo-aymakan-shipping'),
                 'type' => 'title'
@@ -242,23 +224,6 @@ class Aymakan_Shipping_Method extends WC_Shipping_Method
             $is_available = false;
         }
         return apply_filters('woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package);
-    }
-
-    /**
-     * Add cash on deliver fee
-     */
-    function aymakan_add_cod_fee()
-    {
-        if (is_admin() && !defined('DOING_AJAX')) {
-            if (empty($this->cod_fee))
-                return;
-        }
-
-        $chosen_gateway = WC()->session->chosen_payment_method;
-
-        if ($chosen_gateway == 'cod') {
-            WC()->cart->add_fee(__('COD fee', 'woo-aymakan-shipping'), $this->cod_fee, false, '');
-        }
     }
 
 }
