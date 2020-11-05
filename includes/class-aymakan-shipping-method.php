@@ -102,6 +102,15 @@ class Aymakan_Shipping_Method extends WC_Shipping_Method
         // $this->country     = $this->get_option('collection_country');
         $this->debug = $this->get_option('debug');
 
+        // Active logs.
+        if ( 'yes' == $this->debug ) {
+            if ( class_exists( 'WC_Logger' ) ) {
+                $this->log = new WC_Logger();
+            } else {
+                $this->log = $this->woocommerce_method()->logger();
+            }
+        }
+
         // Actions
         add_action('woocommerce_update_options_shipping_' . $this->id, array($this, 'process_admin_options'));
     }
