@@ -103,25 +103,25 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
             $param = array();
             parse_str($_POST['data'], $param);
 
-            $order      = isset($param['order_id']) ? wc_get_order($param['order_id']) : '';
-            $name       = isset($param['delivery_name']) ? $param['delivery_name'] : '';
-            $email      = isset($param['delivery_email']) ? $param['delivery_email'] : '';
-            $phone      = isset($param['delivery_phone']) ? $param['delivery_phone'] : '';
-            $address    = isset($param['delivery_address']) ? $param['delivery_address'] : '';
-            $city       = isset($param['delivery_city']) ? $param['delivery_city'] : '';
-            $region     = isset($param['delivery_region']) ? $param['delivery_region'] : '';
-            $pieces     = isset($param['pieces']) ? $param['pieces'] : '';
-            $is_cod     = isset($param['is_cod']) ? $param['is_cod'] : '';
-            $cod_amount = isset($param['cod_amount']) ? $param['cod_amount'] : '';
-            $total      = isset($param['declared_value']) ? $param['declared_value'] : '';
-            $reference  = isset($param['reference']) ? $param['reference'] : '';
+            $order         = isset($param['order_id']) ? wc_get_order($param['order_id']) : '';
+            $name          = isset($param['delivery_name']) ? $param['delivery_name'] : '';
+            $email         = isset($param['delivery_email']) ? $param['delivery_email'] : '';
+            $phone         = isset($param['delivery_phone']) ? $param['delivery_phone'] : '';
+            $address       = isset($param['delivery_address']) ? $param['delivery_address'] : '';
+            $city          = isset($param['delivery_city']) ? $param['delivery_city'] : '';
+            $neighbourhood = isset($param['delivery_neighbourhood']) ? $param['delivery_neighbourhood'] : '';
+            $pieces        = isset($param['pieces']) ? $param['pieces'] : '';
+            $is_cod        = isset($param['is_cod']) ? $param['is_cod'] : '';
+            $cod_amount    = isset($param['cod_amount']) ? $param['cod_amount'] : '';
+            $total         = isset($param['declared_value']) ? $param['declared_value'] : '';
+            $reference     = isset($param['reference']) ? $param['reference'] : '';
 
             $data = array(
                 'delivery_name' => $name,
                 'delivery_email' => $email,
                 'delivery_city' => $city,
                 'delivery_address' => $address,
-                'delivery_region' => $region,
+                'delivery_neighbourhood' => $neighbourhood,
                 'delivery_phone' => $phone,
                 'pieces' => $pieces,
                 'declared_value' => $total,
@@ -141,7 +141,7 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
                 'collection_email' => $this->email,
                 'collection_city' => $this->city,
                 'collection_address' => $this->address,
-                'collection_region' => $this->region,
+                'collection_neighbourhood' => $this->neighbourhood,
                 'collection_phone' => $this->phone,
                 'collection_country' => $this->country,
             );
@@ -160,12 +160,12 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
 
             // Add Order Note.
             if (isset($param['order_id']) && !empty($response->data)) {
-                $shipping = $response->data->shipping;
-                $tracking = $shipping->tracking_number;
-                $date = new DateTime($shipping->created_at);
+                $shipping             = $response->data->shipping;
+                $tracking             = $shipping->tracking_number;
+                $date                 = new DateTime($shipping->created_at);
                 $shipping->created_at = $date->format('M d, Y \a\t h:m a');
-                $trackpdf = !empty($shipping->label) ? '<a href="' . $shipping->label . '" target="_blank">View PDF</a>' : '';
-                $note     = __("<strong>Aymakan Shipment Created</strong>\nTracking Number: {$tracking} \nShipment: {$trackpdf} \nCreated By: {$user_name}", 'woo-aymakan-shipping');
+                $trackpdf             = !empty($shipping->label) ? '<a href="' . $shipping->label . '" target="_blank">View PDF</a>' : '';
+                $note                 = __("<strong>Aymakan Shipment Created</strong>\nTracking Number: {$tracking} \nShipment: {$trackpdf} \nCreated By: {$user_name}", 'woo-aymakan-shipping');
                 $order->add_order_note($note);
             }
 

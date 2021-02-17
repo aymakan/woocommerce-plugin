@@ -45,7 +45,7 @@ class Aymakan_Shipping_Method extends WC_Shipping_Method
     /**
      * @var string
      */
-    public $region = '';
+    public $neighbourhood = '';
 
     /**
      * @var string
@@ -97,7 +97,7 @@ class Aymakan_Shipping_Method extends WC_Shipping_Method
         $this->email     = $this->get_option('collection_email');
         $this->city      = $this->get_option('collection_city');
         $this->address   = $this->get_option('collection_address');
-        $this->region    = $this->get_option('collection_region');
+        $this->neighbourhood    = $this->get_option('collection_neighbourhood');
         $this->phone     = $this->get_option('collection_phone');
         // $this->country     = $this->get_option('collection_country');
         $this->debug = $this->get_option('debug');
@@ -176,10 +176,10 @@ class Aymakan_Shipping_Method extends WC_Shipping_Method
                 'default' => 'Riyadh',
                 'options' => Aymakan_Shipping_Helper::get_cities('en')
             ),
-            'collection_region' => array(
-                'title' => __('Collection Region', 'woo-aymakan-shipping'),
+            'collection_neighbourhood' => array(
+                'title' => __('Collection Neighbourhood', 'woo-aymakan-shipping'),
                 'type' => 'text',
-                'description' => __('The region from which Aymakan will be picking up the shipment.', 'woo-aymakan-shipping'),
+                'description' => __('The neighbourhood from which Aymakan will be picking up the shipment.', 'woo-aymakan-shipping'),
                 'desc_tip' => true,
                 'default' => ''
             ),

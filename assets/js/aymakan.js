@@ -30,9 +30,9 @@ jQuery(function ($) {
                 url: aymakan_shipping.ajax_url,
                 data: data,
                 success: function (response) {
-
+                    var notify = section.find('.notification');
                     if (response.success === true) {
-                        section.find('.notification').prepend('<span class="dashicons-yes-alt aymakan-shipment-success">Aymakan Shipment Created</span>');
+                        notify.prepend('<span class="dashicons-yes-alt aymakan-shipment-success">Aymakan Shipment Created</span>');
                         var shipping = response.data.shipping,
                             note = wp.template( 'wc-aymakan-order-note' );
                         $(note( shipping )).prependTo('.order_notes');
@@ -47,14 +47,25 @@ jQuery(function ($) {
                     if (response.errors) {
                         section.find('.has-error').removeClass('has-error');
                         $.each(response.errors, function (key, value) {
-                            section.find('.notification').prepend('<span class="dashicons-warning noti-' + key + '">' + value[0] + '</span>');
+                            notify.prepend('<span class="dashicons-warning noti-' + key + '">' + value[0] + '</span>').fadeIn('fast');
                             $('.noti-' + key).delay(3000).fadeOut(1000, function () {
                                 $(this).remove();
                             });
                             $('#' + key).addClass('has-error');
                         });
-                        section.removeClass('loader');
                     }
+
+                    if (response.error) {
+                        section.find('.has-error').removeClass('has-error');
+                        notify.prepend('<span class="dashicons-warning">' +  response.response + '</span>').fadeIn('fast');
+                        setTimeout(function(){
+                            notify.fadeOut('slow', function () {
+                                notify.html('');
+                            });
+                        }, 10000);
+                    }
+
+                    section.removeClass('loader');
 
                 },
                 dataType: 'json'

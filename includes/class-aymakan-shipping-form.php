@@ -107,11 +107,11 @@ class Aymakan_Shipping_Form
                         'class' => array('desc_tip'),
                         'default' => $city
                     ),
-                    'delivery_region' => array(
-                        'title' => __('Region', 'woo-aymakan-shipping'),
-                        'label' => __('Region', 'woo-aymakan-shipping'),
+                    'delivery_neighbourhood' => array(
+                        'title' => __('Neighbourhood', 'woo-aymakan-shipping'),
+                        'label' => __('Neighbourhood', 'woo-aymakan-shipping'),
                         'type' => 'text',
-                        'description' => __('Enter Region.', 'woo-aymakan-shipping'),
+                        'description' => __('Enter Neighbourhood.', 'woo-aymakan-shipping'),
                         'class' => array('desc_tip'),
                         'default' => $state
                     ),
@@ -163,7 +163,8 @@ class Aymakan_Shipping_Form
                         'type' => 'text',
                         'description' => __('If order is COD, then COD amount is the amount Aymakan driver will be collecting from your customer.', 'woo-aymakan-shipping'),
                         'class' => array('desc_tip'),
-                        'default' => $cod_fee
+                        'default' => $cod_fee,
+                        'required' => true
                     ),
                     'items' => array(
                         'title' => __('Items', 'woo-aymakan-shipping'),
@@ -204,5 +205,3 @@ class Aymakan_Shipping_Form
 }
 
 ?>
-
-
