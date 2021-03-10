@@ -185,8 +185,6 @@ class Aymakan_Shipping_Form
                         'required' => true
                     ),
                     'order_id' => array(
-                        'title' => __('Order Id', 'woo-aymakan-shipping'),
-                        'label' => __('Order Id', 'woo-aymakan-shipping'),
                         'type' => 'hidden',
                         'default' => $order->get_id(),
                     )
