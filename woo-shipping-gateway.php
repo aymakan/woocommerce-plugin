@@ -45,10 +45,13 @@ if ( ! class_exists( 'Aymakan_Main' ) ) :
 
             // Checks with WooCommerce is installed.
             if ( class_exists( 'WC_Integration' ) ) {
+
                 include_once AYMAKAN_PATH . 'includes/class-aymakan-shipping-helper.php';
                 include_once AYMAKAN_PATH . 'includes/class-aymakan-shipping-form.php';
                 include_once AYMAKAN_PATH . 'includes/class-aymakan-shipping-method.php';
                 include_once AYMAKAN_PATH . 'includes/class-aymakan-shipping-create.php';
+
+
                 add_filter( 'woocommerce_shipping_methods', array( $this, 'aymakan_add_method' ) );
 
             } else {
