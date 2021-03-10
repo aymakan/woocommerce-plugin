@@ -9,21 +9,6 @@ if (!defined('ABSPATH')) {
 class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
 {
     /**
-     * @var string
-     */
-    public $endPoint = '';
-
-    /**
-     * @var string
-     */
-    protected $urlTest = 'https://dev.aymakan.com.sa/api/v2';
-
-    /**
-     * @var string
-     */
-    protected $urlLive = 'https://aymakan.com.sa/api/v2';
-
-    /**
      * Initializes the method.
      *
      * @return void
@@ -39,13 +24,6 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
             add_action('wp_ajax_aymakan_shipping_create', array($this, 'aymakan_shipping_create'), 10);
             add_action('wp_ajax_nopriv_aymakan_shipping_create', array($this, 'aymakan_shipping_create'), 10);
         }
-
-        if ('no' == $this->test_mode) {
-            $this->endPoint = $this->urlLive;
-        } else {
-            $this->endPoint = $this->urlTest;
-        }
-
     }
 
     /**
@@ -134,9 +112,6 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
                 'declared_value_currency' => $order->get_currency(),
                 'is_cod' => $is_cod,
                 'cod_amount' => $cod_amount,
-                // 'price_set_amount' => '',
-                // 'tax_amount' => '',
-                // 'price_set_amount_incl_tax' => '',
                 'collection_name' => $this->name,
                 'collection_email' => $this->email,
                 'collection_city' => $this->city,
@@ -144,6 +119,9 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
                 'collection_neighbourhood' => $this->neighbourhood,
                 'collection_phone' => $this->phone,
                 'collection_country' => $this->country,
+                // 'price_set_amount' => '',
+                // 'tax_amount' => '',
+                // 'price_set_amount_incl_tax' => '',
             );
 
             if ('yes' == $this->debug) {
@@ -151,12 +129,7 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
                 $this->log->add($this->id, print_r($data, true));
             }
 
-            $url = $this->endPoint . '/shipping/create';
-            if ('yes' == $this->debug) {
-                $this->log->add($this->id, 'URL: ' . $url);
-            }
-
-            $response = json_decode($this->api_request($url, $data));
+            $response = json_decode(Aymakan_Shipping_Helper::api_request('/shipping/create', $data));
 
             // Add Order Note.
             if (isset($param['order_id']) && !empty($response->data)) {
@@ -179,33 +152,6 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
         }
     }
 
-    /**
-     * @param $url
-     * @param $params
-     * @return string
-     */
-    public function api_request($url, $params)
-    {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($curl, CURLOPT_HEADER, FALSE);
-        curl_setopt($curl, CURLOPT_POST, TRUE);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params));
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            "Accept: application/json",
-            "Authorization: " . $this->api_key
-        ));
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, TRUE);
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        if ('yes' == $this->debug) {
-            $this->log->add($this->id, 'Curl response: ' . $response);
-        }
-
-        return $response;
-    }
 }
 
 new Aymakan_Shipping_Create();

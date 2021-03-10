@@ -102,7 +102,7 @@ class Aymakan_Shipping_Form
                         'title' => __('City', 'woo-aymakan-shipping'),
                         'label' => __('City', 'woo-aymakan-shipping'),
                         'type' => 'select',
-                        'options' => Aymakan_Shipping_Helper::get_cities('en'),
+                        'options' => Aymakan_Shipping_Helper::get_cities(),
                         'description' => __('Select City.', 'woo-aymakan-shipping'),
                         'class' => array('desc_tip'),
                         'default' => $city

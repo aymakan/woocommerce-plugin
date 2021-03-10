@@ -174,7 +174,7 @@ class Aymakan_Shipping_Method extends WC_Shipping_Method
                 'description' => __('The city from which Aymakan will be picking up the shipment.', 'woo-aymakan-shipping'),
                 'desc_tip' => true,
                 'default' => 'Riyadh',
-                'options' => Aymakan_Shipping_Helper::get_cities('en')
+                'options' => Aymakan_Shipping_Helper::get_cities()
             ),
             'collection_neighbourhood' => array(
                 'title' => __('Collection Neighbourhood', 'woo-aymakan-shipping'),

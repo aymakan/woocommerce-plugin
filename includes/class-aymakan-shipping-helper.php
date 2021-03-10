@@ -8,199 +8,117 @@ if (!defined('ABSPATH')) {
  */
 class Aymakan_Shipping_Helper
 {
+    /**
+     * @var string
+     */
+    public static $enabled = 'yes';
+
+    /**
+     * @var string
+     */
+    public static $api_key = '';
+
+    /**
+     * @var string
+     */
+    public static $test_mode = 'yes';
+
+    /**
+     * @var string
+     */
+    public static $debug = 'yes';
+
+    /**
+     * @var string
+     */
+    public static $endPoint = '';
+
+    /**
+     * @var string
+     */
+    protected $urlTest = 'https://dev.aymakan.com.sa/api/v2';
+
+    /**
+     * @var string
+     */
+    protected $urlLive = 'https://aymakan.com.sa/api/v2';
+
     public function __construct()
     {
         add_filter('woocommerce_form_field', array($this, 'aymakan_form_extend'), 10, 4);
+        $this->init();
     }
 
-    /**
-     * @param string $locale
-     * @return array|false
-     */
-    public static function get_cities($locale = 'ar')
+    public function init()
     {
-        $cities = array(
-            'Riyadh' => 'الرياض',
-            'Khobar' => 'الخبر',
-            'Dammam' => 'الدمام',
-            'Afif' => 'عفيف',
-            'Abha' => 'أبها',
-            'Abqaiq' => 'بقيق',
-            'Abu Areish' => 'أبو عريش',
-            'Aflaj' => 'الأفلاج',
-            'Ahad Masarha' => 'أحد المسارحة',
-            'Ahad Rufaidah' => 'أحد رفيدة',
-            'Ain Dar' => 'عين دار ',
-            'Al Dalemya' => 'الدليمية',
-            'Al Hassa' => 'الأحساء',
-            'Alghat' => 'الغاط',
-            'Alhada' => 'الهدا',
-            'Al-Jsh' => 'الجش',
-            'AlRass' => 'الرس',
-            'Amaq ' => 'عمق',
-            'Anak' => 'عنك',
-            'Aqiq ' => 'عقيق',
-            'Arar' => 'عرعر',
-            'Artawiah' => 'الأرطاوية',
-            'Asfan' => 'عسفان',
-            'Ash Shuqaiq' => 'الشقيق',
-            'Assiyah' => 'الأسياح',
-            'Awamiah' => 'العوامية',
-            'Ayn Fuhayd' => 'عين ابن فهيد',
-            'Badaya' => 'البدايع',
-            'Bader' => 'بدر',
-            'Baha ' => 'الباحة',
-            'Bahara ' => 'بحرة',
-            'Balahmar' => 'بالأحمر',
-            'Balasmar ' => 'بالأسمر',
-            'Bareq ' => 'بارق',
-            'Batha' => 'بطحاء',
-            'BilJurashi ' => 'بلجرشي',
-            'Birk ' => 'البرك',
-            'Bish ' => 'بيش',
-            'Bisha ' => 'بيشة',
-            'Bukeiriah ' => 'البكيرية',
-            'Buraidah' => 'بريدة',
-            'Damad' => 'ضمد',
-            'Darb' => 'درب',
-            'Dawadmi' => 'الدوادمي',
-            'Daelim' => 'الدلم',
-            'Deraab' => 'ديراب',
-            'Dere\'iyeh ' => 'الدرعية',
-            'Dhahran ' => 'الظهران',
-            'Dhahran Al Janoob' => 'ظهران الجنوب',
-            'Dhurma' => 'ضرما',
-            'Domat Al Jandal ' => 'دومة الجندل',
-            'Duba' => 'ضبا',
-            'Farasan' => 'فرسان',
-            'Gilwa' => 'قلوة',
-            'Gizan' => 'جازان',
-            'Hadeethah' => 'الحديثة',
-            'Hafer Al Batin' => 'حفر الباطن',
-            'Hail' => 'حائل',
-            'Halat Ammar' => 'حالة عمار ',
-            'Haqil' => 'حقيل',
-            'Hareeq ' => 'الحريق',
-            'Hawea' => 'الحوية',
-            'Hawtat Bani Tamim' => 'حوطة بني تميم',
-            'Hinakeya' => 'الحناكية',
-            'Hofuf ' => 'الهفوف',
-            'Horaimal' => 'حريملاء',
-            'Hotat Sudair' => 'حوطة سدير',
-            'Khafji' => 'الخفجي',
-            'Khaibar' => 'خيبر',
-            'Khamaseen' => 'الخماسين',
-            'Khamis Mushait' => 'خميس مشيط',
-            'Kharj' => 'الخرج',
-            'Khodaria' => 'الخضرية',
-            'Khulais' => 'خليص',
-            'Khurma' => 'الخرمة',
-            'Laith' => 'ليث',
-            'Madinah' => 'المدينة',
-            'Mahad Al Dahab' => 'مهد الذهب',
-            'Majarda' => 'المجاردة',
-            'Majma' => 'المجمعة',
-            'Makkah' => 'مكة المكرمة',
-            'Mandak' => 'المندق',
-            'Mastura' => 'مستورة',
-            'Mikhwa' => 'المخواة',
-            'Mohayel Aseer' => 'محايل عسير ',
-            'Mrat ' => 'مرات',
-            'Mubaraz' => 'المبرز',
-            'Mulaija' => 'مليجة',
-            'Muzahmiah ' => 'المزاحمية',
-            'Nabiya ' => 'النابية',
-            'Najran' => 'نجران',
-            'Namas' => 'النماص',
-            'Nimra' => 'نمرة',
-            'Noweirieh' => 'النعيرية',
-            'Nwariah ' => 'نوارية',
-            'Onaiza ' => 'عنيزة',
-            'Othmanyah ' => 'العثمانية',
-            'Oula ' => 'علا',
-            'Oyaynah' => 'العيينة',
-            'Qahmah ' => 'القحمة',
-            'Qarah' => 'قرة',
-            'Qariya Al Olaya ' => 'قرية العليا',
-            'Qasab' => 'القصب',
-            'Qassim' => 'القصيم',
-            'Qatif' => 'القطيف',
-            'Qaysoomah' => 'القيصومة',
-            'Qunfudah ' => 'القنفذة',
-            'Qurayat' => 'القريات',
-            'Quwei\'ieh' => 'القويعية',
-            'Rabigh ' => 'رابغ',
-            'Rafha' => 'رفحاء',
-            'Rahima' => 'رحيمة',
-            'Rania' => 'رنية',
-            'Ras Al Kheir' => 'رأس الخير',
-            'Ras Tanura ' => 'رأس تنورة',
-            'Rejal Alma\'a' => 'رجال المع',
-            'Remah' => 'رماح',
-            'Riyadh Al Khabra' => 'رياض الخبراء',
-            'Rowdat Sodair' => 'روضة سدير',
-            'Sabt El Alaya' => 'سبت العليا',
-            'Sabya ' => 'صبيا',
-            'Safanyah' => 'السفانية',
-            'Safwa' => 'صفوى',
-            'Sajir' => 'ساجر',
-            'Sakaka' => 'سكاكا',
-            'Salbookh' => 'صلبوخ',
-            'Salwa ' => 'سلوى',
-            'Samtah ' => 'صامطة',
-            'Sarar' => 'الصرار',
-            'Sarat Obeida' => 'سرة عبيدة',
-            'Seiha' => 'سيهات',
-            'Shaqra ' => 'شقراء',
-            'Sharourah' => 'شرورة',
-            'Shefaa' => 'الشفاء',
-            'Shoaiba' => 'الشعيبة',
-            'Shraie\'e' => 'الشرايع',
-            'Shumeisi' => 'الشميسي',
-            'Sulaiyl' => 'السليل',
-            'Tabrjal ' => 'طبرجل',
-            'Tabuk' => 'تبوك',
-            'Taif' => 'الطائف',
-            'Tanjeeb' => 'تناجيب',
-            'Tanuma' => 'تنومة',
-            'Tarut ' => 'تاروت',
-            'Tatleeth' => 'تثليث',
-            'Tayma' => 'تيماء',
-            'Tebrak' => 'تبراك',
-            'Thuqba' => 'الثقبة',
-            'Turaif' => 'طريف',
-            'Turba' => 'تربا',
-            'Udhaliyah' => 'العضيلية',
-            'Um Aljamajim' => 'ام الجماجم',
-            'umluj' => 'أملج',
-            'Uqlat Al Suqur' => 'عقلة الصقور',
-            'Uyun ' => 'العيون',
-            'Wadi El Dwaser' => 'وادي الدواسر',
-            'Wadi Fatmah' => 'وادي فاطمة',
-            'Al Wajh' => 'الوجة',
-            'Yanbu' => 'ينبع',
-            'Yanbu Al Baher' => 'ينبع البحر',
-            'Zahban' => 'ذهبان',
-            'Zulfi ' => 'الزلفي',
-            'Bahrat Al Moujoud' => 'بحرة المجود',
-            'Kara ' => 'الكرا',
-            'Kara\'a' => 'كرا',
-            'Khasawyah' => 'الخصاوية',
-            'Harjah ' => 'الهرجة',
-            'Thabya' => 'صبيا',
-            'Satorp' => 'ارامكو توتال للتكرير,الجبيل',
-            'Sahna ' => 'الصحنة',
-            'Rwaydah ' => 'الرويضة',
-            'Muthaleif' => 'المظليف',
-            'Midinhab ' => 'المذنب',
-            'Jeddah' => 'جدة‎‎'
-        );
+        // Define user set variables.
+        self::$enabled   = $this->get_option('enabled');
+        self::$api_key   = $this->get_option('api_key');
+        self::$test_mode = $this->get_option('test_mode');
+        self::$debug     = $this->get_option('debug');
 
-        if ($locale == 'en') {
-            $cities = array_combine(array_flip($cities), array_flip($cities));
+        if ('no' == self::$test_mode) {
+            self::$endPoint = $this->urlLive;
+        } else {
+            self::$endPoint = $this->urlTest;
         }
 
+    }
+
+    public function get_option($key)
+    {
+        $option = get_option('woocommerce_aymakan_settings');
+        return (isset($option[$key]) ? $option[$key] : '');
+    }
+
+    public static function api_request($segment, $params = array())
+    {
+        $url  = self::$endPoint . $segment;
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($curl, CURLOPT_HEADER, FALSE);
+        if (!empty($params)) {
+            curl_setopt($curl, CURLOPT_POST, TRUE);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params));
+        }
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            "Accept: application/json",
+            "Authorization: " . self::$api_key
+        ));
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, TRUE);
+        $response = curl_exec($curl);
+        curl_close($curl);
+        if ('yes' == self::$debug) {
+            self::add_log('Curl response: ' . $response);
+        }
+        return $response;
+    }
+
+    public static function get_cities()
+    {
+        $response = json_decode(self::api_request('/cities'), true);
+        $cities   = [];
+        if (!empty($response['data']) && !empty($response['data']['cities'])) {
+            foreach ($response['data']['cities'] as $city) {
+                if (get_locale() == 'ar_SA') {
+                    $cities[$city['city_en']] = $city['city_ar'];
+                } else {
+                    $cities[$city['city_en']] = $city['city_en'];
+                }
+            }
+        }
         return $cities;
+    }
+
+    public static function add_log($log)
+    {
+        if (true === WP_DEBUG) {
+            if (is_array($log) || is_object($log)) {
+                error_log(print_r($log, true));
+            } else {
+                error_log($log);
+            }
+        }
     }
 
     /**
