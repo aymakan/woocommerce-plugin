@@ -12,7 +12,7 @@ Following are the instruction to install this plugin.
 
 ![Configuration](screenshots/screenshot_1.png?raw=true "Configuration")
 
-## Configuring Module
+## Configuring Plugin
 After installation, go to WooCommerce --> Settings --> Shipping --> Aymakan Shipping. Enable shipping method and fill all the information.
 
 ![Configuration](screenshots/screenshot_2.png?raw=true "Configuration")
