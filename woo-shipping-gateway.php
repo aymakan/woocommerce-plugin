@@ -3,12 +3,13 @@
  * Plugin Name: WooCommerce Aymakan Shipping
  * Plugin URI:
  * Description: WooCommerce Aymakan Shipping Carrier
- * Author: Abdul Shakoor
+ * Author: Aymakan
  * Author URI: https://www.aymakan.com.sa
  * Version: 1.2.0
  * License: GPLv2 or later
  * Text Domain: woo-aymakan-shipping
  * Domain Path: languages/
+ * Developer: Abdul Shakoor Kakar
  */
 
 define( 'AYMAKAN_PATH', plugin_dir_path( __FILE__ ) );
@@ -42,6 +43,8 @@ if ( ! class_exists( 'Aymakan_Main' ) ) :
          */
         private function __construct() {
             add_action( 'init', array( $this, 'load_plugin_textdomain' ), -1 );
+            $prefix = is_network_admin() ? 'network_admin_' : '';
+            add_filter( "{$prefix}plugin_action_links_" . plugin_basename(__FILE__), array( &$this, 'plugin_links' ) );
 
             // Checks with WooCommerce is installed.
             if ( class_exists( 'WC_Integration' ) ) {
@@ -71,6 +74,30 @@ if ( ! class_exists( 'Aymakan_Main' ) ) :
                 self::$instance = new self;
             }
             return self::$instance;
+        }
+
+        /**
+         * @param $links
+         * @return string
+         */
+        public function plugin_links($links ) {
+            if (!$this->is_woocommerce_activated()) {
+                return '';
+            }
+            $more_links[] = '<a href="'.admin_url().'admin.php?page=wc-settings&tab=shipping&section=aymakan">' . __( 'Configure', 'woo-aymakan-shipping' ) . '</a>';
+            $links = $more_links + $links;
+            return $links;
+        }
+
+        /**
+         * @return bool
+         */
+        public function is_woocommerce_activated() {
+            if ( class_exists( 'woocommerce' ) ) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         /**
