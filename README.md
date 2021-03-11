@@ -22,7 +22,7 @@ There are some key configurations to note down.
 - `Test Mode`: If you are testing the plugin `Checked` the box. Once the integration is tested, and ready to move to production
 disable `Test Mode`, by unchecking.
 - `API Key`:  API Key is used for authenticating with Aymakan Api. The API key can be found in your Aymakan account.
-Login to your account and go to `Integrations`. Copy the Api Key and paste in the API Key field in Magento 2 module configuration.
+Login to your account and go to `Integrations`. Copy the Api Key and paste in the API Key field in Aymakan plugin configuration.
 - `Collection Related Data`: As can be seen in above screenshot, there are several config fields which are Collection related. 
 These fields are related to your address (From where Aymakan drivers will be picking up shipments). Enter your contact information here
 or enter your Warehouse address and contact information in all those fields accordingly.
