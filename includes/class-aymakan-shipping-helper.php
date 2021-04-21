@@ -97,7 +97,7 @@ class Aymakan_Shipping_Helper
     public static function get_cities()
     {
         $response = json_decode(self::api_request('/cities'), true);
-        $cities   = [];
+        $cities   = ['' => __('Select City', 'woo-aymakan-shipping')];
         if (!empty($response['data']) && !empty($response['data']['cities'])) {
             foreach ($response['data']['cities'] as $city) {
                 if (get_locale() == 'ar_SA') {
