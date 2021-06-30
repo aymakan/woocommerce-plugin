@@ -36,7 +36,6 @@ class Aymakan_Shipping_Form
      */
     public function shipping_form($order, $column)
     {
-        $cod_fee = '';
 
         // Get the customer shipping and billing email
         $email      = $order->get_billing_email();
@@ -50,13 +49,6 @@ class Aymakan_Shipping_Form
         $state      = $order->get_shipping_state() ? $order->get_shipping_state() : $order->get_billing_state();
         $postcode   = $order->get_shipping_postcode() ? $order->get_shipping_postcode() : $order->get_billing_postcode();
         $country    = $order->get_shipping_country() ? $order->get_shipping_country() : $order->get_billing_country();
-
-        // Get COD Fee
-        foreach ($order->get_items('fee') as $item_id => $item_fee) {
-            if ($item_fee->get_name() !== 'COD fee')
-                continue;
-            $cod_fee .= $item_fee->get_total();
-        }
 
         $fields = array();
         switch ($column):
@@ -163,7 +155,7 @@ class Aymakan_Shipping_Form
                         'type' => 'text',
                         'description' => __('If order is COD, then COD amount is the amount Aymakan driver will be collecting from your customer.', 'woo-aymakan-shipping'),
                         'class' => array('desc_tip'),
-                        'default' => $cod_fee,
+                        'default' => $order->get_total(),
                         'required' => true
                     ),
                     'items' => array(
