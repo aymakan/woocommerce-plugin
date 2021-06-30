@@ -155,7 +155,7 @@ class Aymakan_Shipping_Form
                         'type' => 'text',
                         'description' => __('If order is COD, then COD amount is the amount Aymakan driver will be collecting from your customer.', 'woo-aymakan-shipping'),
                         'class' => array('desc_tip'),
-                        'default' => $order->get_total(),
+                        'default' => ($order->get_payment_method() == 'cod') ? $order->get_total() : '',
                         'required' => true
                     ),
                     'items' => array(
