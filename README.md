@@ -32,7 +32,7 @@ or enter your Warehouse address and contact information in all those fields acco
 ## Usage
 Once the plugin is configured properly, its time to see it in action. 
 
-# Single Shipment
+### Single Shipment
 - Go to orders listing page. You will be able to see `Create  Shipment` button within Aymakan Action column for creating a single shipment.
 - - Most of the form will be already filled up for you. You will need to select a `Delivery City`. Aymakan
     only support a list of cities with proper namings. So select the desired city.
@@ -45,7 +45,7 @@ Once the plugin is configured properly, its time to see it in action.
 - - Click on `Create Shipping` button at bottom right to create a shipping in Aymakan.
 - - Once the shipment is created, you will have a success message and an order note will appear on the right side of order page with View PDF (AWB) link.
 
-# Bulk Shipments
+### Bulk Shipments
 - For creating the bulk shipment open the `Bulk Action` dropdown and you'll find the option `Create Aymakan Shipments`.
 - Check the below screenshot for reference.
 
