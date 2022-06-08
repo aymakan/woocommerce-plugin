@@ -5,7 +5,7 @@
  * Description: WooCommerce Aymakan Shipping Carrier
  * Author: Aymakan
  * Author URI: https://www.aymakan.com.sa
- * Version: 1.3.1
+ * Version: 2.0
  * License: GPLv2 or later
  * Text Domain: woo-aymakan-shipping
  * Domain Path: languages/
