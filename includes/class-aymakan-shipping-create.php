@@ -247,7 +247,15 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
             $trackpdf             = !empty($shipping->pdf_label) ? '<a href="' . $shipping->pdf_label . '" target="_blank">View PDF</a>' : '';
             $order->add_order_note(__("<strong>Aymakan Shipment Created</strong>\nTracking Number: {$tracking} \nShipment: {$trackpdf} \nCreated By: {$userFullName}", 'aymakan'));
             $response->id = $order->id;
+
+            $response->tracking_link = 'https://aymakan.com.sa/en/tracking/' . $tracking;
+            if ('yes' === $this->test_mode) {
+                $response->tracking_link = 'https://dev.aymakan.com.sa/en/tracking/' . $tracking;
+            }
+
             update_post_meta($order->id, 'aymakan_awb_link', $shipping->pdf_label);
+            update_post_meta($order->id, 'aymakan_tracking_link', $response->tracking_link);
+            update_post_meta($order->id, 'aymakan_tracking_number', $tracking);
         }
 
         return $response;
@@ -294,7 +302,8 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
      */
     public function aymakan_wc_new_order_column($columns)
     {
-        $columns['aymakan'] = 'Aymakan Action';
+        $columns['aymakan']          = 'Aymakan Action';
+        $columns['aymakan-tracking'] = 'Aymakan Tracking';
         return $columns;
     }
 
@@ -306,14 +315,21 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
     {
         global $post;
 
-        $AwbLink = get_post_meta($post->ID, 'aymakan_awb_link', true);
+        $AwbLink        = get_post_meta($post->ID, 'aymakan_awb_link', true);
+        $TrackingLink   = get_post_meta($post->ID, 'aymakan_tracking_link', true);
+        $TrackingNumber = get_post_meta($post->ID, 'aymakan_tracking_number', true);
 
         if ('aymakan' === $column) {
             if (!$AwbLink) {
-                echo '<a href="' . admin_url() . 'admin.php?page=woo-aymakan-shipping-carrier/create-shipping-page.php&order_ids=' . $post->ID . '" class="order-status aymakan-btn aymakan-shipping-create-btn" target="_blank">Create Shipment</a>';
+                echo '<a href="' . admin_url() . 'admin.php?page=woo-aymakan-shipping-carrier/create-shipping-page.php&order_ids=' . $post->ID . '" class="order-status aymakan-btn aymakan-shipping-create-btn">' . __('Create Shipment', 'aymakan') . '</a>';
             } else {
                 echo '<a href="' . $AwbLink . '" class="order-status aymakan-btn aymakan-awb-btn" target="_blank">' . __('Print Airway Bill', 'aymakan') . '</a>';
             }
+        }
+
+        if (('aymakan-tracking' === $column) && $AwbLink && $TrackingNumber) {
+
+            echo '<a href="' . $TrackingLink . '" class="order-status aymakan-btn aymakan-shipping-track-btn" target="_blank">' . $TrackingNumber . '</a>';
         }
 
     }

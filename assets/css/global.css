@@ -29,10 +29,18 @@
 	background: url("../images/aymakan-icon.png") no-repeat center;
 	background-size: contain;
 }
-.widefat td .aymakan-awb-btn.aymakan-btn::before {
+.widefat td .aymakan-btn.aymakan-awb-btn::before {
 	width: 20px;
 	height: 20px;
 	background-image: url("../images/printer.svg");
+}
+.widefat td .aymakan-btn.aymakan-shipping-track-btn::before {
+	width: 20px;
+	height: 20px;
+	background-image: url("../images/icon-tracking.svg");
+}
+.widefat td .aymakan-btn.aymakan-shipping-track-btn {
+	border: 1px dashed #2271b1;
 }
 .widefat td .aymakan-btn::after {
 	content: "";
@@ -49,6 +57,7 @@
 	z-index: -1;
 	transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
 }
+.widefat td .aymakan-btn.aymakan-shipping-track-btn:after,
 .widefat td .aymakan-awb-btn.aymakan-btn:after {
 	background-color: #72baf5;
 }
