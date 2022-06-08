@@ -1,0 +1,105 @@
+#toplevel_page_woo-aymakan-shipping-carrier-create-shipping-page {
+	display: none !important;
+}
+.widefat td .aymakan-btn {
+	padding-right: 10px;
+	border: 1px solid #f1d173;
+	color: #333333;
+	position: relative;
+	padding-left: 35px;
+	background-color: transparent;
+	box-shadow: none !important;
+	outline: none !important;
+	overflow: hidden;
+	z-index: 4;
+}
+.widefat td .aymakan-awb-btn.aymakan-btn {
+	border: 1px solid #2271b1;
+}
+.widefat td .aymakan-btn::before {
+	content: "";
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	border-radius: 50px;
+	position: absolute;
+	top: 50%;
+	left: 5px;
+	transform: translateY(-50%);
+	background: url("../images/aymakan-icon.png") no-repeat center;
+	background-size: contain;
+}
+.widefat td .aymakan-awb-btn.aymakan-btn::before {
+	width: 20px;
+	height: 20px;
+	background-image: url("../images/printer.svg");
+}
+.widefat td .aymakan-btn::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 165px;
+	height: 165px;
+	background-color: #f1d173;
+	border-color: transparent;
+	border-radius: 50%;
+	transform: translate(-10px, -70px) scale(0.1);
+	opacity: 0;
+	z-index: -1;
+	transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
+}
+.widefat td .aymakan-awb-btn.aymakan-btn:after {
+	background-color: #72baf5;
+}
+.widefat td .aymakan-btn:hover::after {
+	opacity: 1;
+	transform-origin: 100px 100px;
+	transform: scale(1) translate(-10px, -70px);
+}
+.aymakan-loading.aymakan-toggle-content,
+.aymakan-loading .wp-list-table {
+	position: relative;
+}
+.aymakan-loading.aymakan-toggle-content:after,
+.aymakan-loading .wp-list-table::after {
+	content: "";
+	position: absolute;
+	top: 50px;
+	left: 1px;
+	right: 1px;
+	bottom: 50px;
+	background-color: rgba(255, 255, 255, 0.8);
+	display: block;
+	z-index: 10;
+}
+.aymakan-loading.aymakan-toggle-content:after {
+	top: 1px;
+	bottom: 1px;
+}
+.aymakan-loading.aymakan-toggle-content:before,
+.aymakan-loading .wp-list-table::before {
+	content: "";
+	height: 2em;
+	width: 2em;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -.5em;
+	margin-top: -.5em;
+	display: block;
+	background-image: url("../../../woocommerce/assets/images/icons/loader.svg") !important;
+	background-position: center center;
+	z-index: 11;
+	color: #cccccc;
+	-webkit-animation: rotating 1s linear infinite;
+	-moz-animation: rotating 1s linear infinite;
+	-ms-animation: rotating 1s linear infinite;
+	-o-animation: rotating 1s linear infinite;
+	animation: rotating 1s linear infinite;
+}
+
+.aymakan-disable-btn {
+	opacity: 0.5;
+	pointer-events: none;
+}
