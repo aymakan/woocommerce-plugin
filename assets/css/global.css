@@ -12,6 +12,7 @@
 	outline: none !important;
 	overflow: hidden;
 	z-index: 4;
+	cursor: pointer;
 }
 .widefat td .aymakan-awb-btn.aymakan-btn {
 	border: 1px solid #2271b1;
