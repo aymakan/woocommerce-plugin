@@ -96,11 +96,11 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
             $address       = isset($param['delivery_address']) ? $param['delivery_address'] : '';
             $city          = isset($param['delivery_city']) ? $param['delivery_city'] : '';
             $neighbourhood = isset($param['delivery_neighbourhood']) ? $param['delivery_neighbourhood'] : '';
-            $pieces        = isset($param['pieces']) ? $param['pieces'] : '';
+            $pieces        = isset($param['pieces']) ? $param['pieces'] : 1;
             $is_cod        = isset($param['is_cod']) ? $param['is_cod'] : '';
             $cod_amount    = isset($param['cod_amount']) ? $param['cod_amount'] : '';
             $total         = isset($param['declared_value']) ? $param['declared_value'] : '';
-            $reference     = isset($param['reference']) ? $param['reference'] : '';
+            $reference     = isset($param['reference']) ? $param['reference'] : $param['order_id'];
 
             $data = [
                 'delivery_name' => $name,
@@ -184,13 +184,13 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
                     'delivery_address' => $address,
                     'delivery_phone' => $phone,
                     'delivery_neighbourhood' => $this->neighbourhood,
-                    'pieces' => count($order->get_items()),
+                    'pieces' => 1,
                     'declared_value' => $order->get_total(),
                     'price_set_currency' => $order->get_currency(),
                     'declared_value_currency' => $order->get_currency(),
                     'is_cod' => ($order->get_payment_method() === 'cod') ? 1 : 0,
                     'cod_amount' => ($order->get_payment_method() === 'cod') ? $order->get_total() : '',
-                    'reference' => mt_rand(),
+                    'reference' => $id,
                 ];
 
                 $letEncode[] = $this->aymakan_response_format($order, $data);

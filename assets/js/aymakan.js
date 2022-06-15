@@ -122,7 +122,6 @@ jQuery(function ($) {
                             row.find('.column-aymakan').html('<a href="' + shipping.pdf_label + '" class="order-status aymakan-btn aymakan-awb-btn" target="_blank">Print Airway Bill</a>');
 
                             row.find('.column-aymakan-tracking').html('<a href="' + item.tracking_link + '" class="order-status aymakan-btn aymakan-shipping-track-btn" target="_blank">' + shipping.tracking_number + '</a>');
-
                         }
 
                         row.find('.check-column input').prop('checked', false)
