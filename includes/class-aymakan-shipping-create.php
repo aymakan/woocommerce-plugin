@@ -233,7 +233,7 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
             'requested_by' => $userFullName,
             'submission_date' => date('Y-m-d H:i:s'),
             'pickup_date' => date('Y-m-d H:i:s'),
-            'delivery_date' => date('Y-m-d H:i:s'),
+            //'delivery_date' => date('Y-m-d H:i:s'),
             'channel' => 'woocommerce',
         ]);
 
