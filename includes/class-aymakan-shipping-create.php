@@ -25,7 +25,7 @@ class Aymakan_Shipping_Create extends Aymakan_Shipping_Method
         if ('no' !== $this->enabled) {
             add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
             //add_action('woocommerce_admin_order_data_after_shipping_address', array($this, 'aymakan_render_html'), 10, 1);
-            add_action('woocommerce_process_shop_order_meta', 'Aymakan_Shipping_Form::save', 10);
+            //add_action('woocommerce_process_shop_order_meta', 'Aymakan_Shipping_Form::save', 10);
             add_action('wp_ajax_aymakan_shipping_create', array($this, 'aymakan_shipping_create'), 10);
             add_action('wp_ajax_nopriv_aymakan_shipping_create', array($this, 'aymakan_shipping_create'), 10);
             add_action('wp_ajax_aymakan_bulk_shipping_create', array($this, 'aymakan_bulk_shipping_create'), 10);
